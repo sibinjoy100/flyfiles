@@ -27,7 +27,7 @@ Install the dependencies and devDependencies and start the server.
 ```sh
 $ cd flyfiles
 $ npm install
-$ nodemon
+$ npm start
 ```
 ### How to use?
  - Open URL in browser that displayed on terminal after giving run command.
