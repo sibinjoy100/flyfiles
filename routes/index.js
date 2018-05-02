@@ -1,4 +1,4 @@
-// Variable declaration
+// letiable declaration
 const express = require('express');
 const router = express.Router();
 const ip = require('ip');
@@ -9,19 +9,19 @@ const rimraf = require('rimraf');
 
 
 // Multer config
-var storage = multer.diskStorage({
+let storage = multer.diskStorage({
     destination: function (req, file, cb) {
          cb(null, './public/img/uploads')
     },
-    filename: function(req, file, cb) {
-        var ext = file.originalname.split('.').pop();
+    filename: (req, file, cb) => {
+        let ext = file.originalname.split('.').pop();
         cb(null, file.fieldname + '-' + Date.now() + '.' + ext);
     }
 });
 
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
+router.get('/',(req, res, next) => {
 	try{
 		rimraf('./public/img/uploads/*', function () { console.log('done'); });
 	} catch(e){
@@ -31,13 +31,13 @@ router.get('/', function(req, res, next) {
 
 });
 
-router.post('/', function(req,res,next){
-	var filename = null;
-	var upload = multer({ 
+router.post('/', (req,res,next) => {
+	let filename = null;
+	let upload = multer({ 
 		storage : storage,
 		limits: { fileSize: 10 * 1000 * 1000 },
-		fileFilter: function(req, file, cb) {
-	       var type = file.mimetype;
+		fileFilter: (req, file, cb) => {
+	       let type = file.mimetype;
 	       if (type !== 'application/pdf' && type !== 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' && type !== 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' && type !== 'image/png' && type !== 'image/jpg' && type !== 'image/jpeg') {
 	         cb(new Error('extensionError'));
 	       } else {
@@ -48,7 +48,7 @@ router.post('/', function(req,res,next){
 		{name: 'file',maxcount:1}
 	]);
 
-	upload(req, res, function (err) {
+	upload(req, res, (err) => {
 		if(err){
 			console.log(err);
 			if(err =='Error: extensionError'){
@@ -78,7 +78,7 @@ router.post('/', function(req,res,next){
 				filename = req.files['file'][0].filename;
 			}
 			// console.log('http://'+ process.env.ip + '/img/uploads/'+filename);
-			var svg_string = qr.imageSync('http://'+ process.env.ip + '/img/uploads/'+filename, { type: 'svg' });
+			let svg_string = qr.imageSync('http://'+ process.env.ip + '/img/uploads/'+filename, { type: 'svg' });
 			console.log('svg_string'+svg_string);
 
 			res.json({

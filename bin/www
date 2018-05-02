@@ -13,7 +13,7 @@ const ip = require('ip');
 const myip = ip.address();
 const portfinder = require('portfinder');
 
-var openPort = null;
+let openPort = null;
 
 portfinder.getPort(function (err, port) {
   if(err) throw err;
@@ -29,13 +29,13 @@ portfinder.getPort(function (err, port) {
     console.log('Server running on: '+ myip+':'+openPort);
     
     process.env.ip = myip+':'+openPort;
-    console.log('dotenv.ip:'+process.env.ip)
+    // console.log('dotenv.ip:'+process.env.ip)
     /**
      * Normalize a port into a number, string, or false.
      */
 
-    function normalizePort(val) {
-      var port = parseInt(val, 10);
+    normalizePort = (val) => {
+      let port = parseInt(val, 10);
 
       if (isNaN(port)) {
         // named pipe
